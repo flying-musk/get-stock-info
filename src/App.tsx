@@ -1,7 +1,19 @@
 import React from 'react';
 import { getAPI } from './API';
 import { Outer } from './styles/Outer.styled';
-import { Top } from './styles/Top.styled';
+import {
+  Top,
+  TopIcon,
+  TopTitle,
+  TitleTop,
+  TitleBottom,
+  TitleBottomGrey,
+  TopSpace,
+  TopSelect,
+  SelectIcon,
+  SelectTitle,
+  SelectTitleGrey,
+} from './styles/Top.styled';
 import { Bottom } from './styles/Bottom.styled';
 
 function App() {
@@ -40,7 +52,25 @@ function App() {
     <>
       <div>{JSON.stringify(data)}</div>
       <Outer>
-        <Top>hihi top</Top>
+        <Top>
+          <TopIcon src={require(`./asset/${data.itemIcon}.png`)} />
+          <TopTitle>
+            <TitleTop>{data.itemName}</TitleTop>
+            <TitleBottom>
+              {data.currentStock}kg/
+              <TitleBottomGrey>{data.maximumStock}kg</TitleBottomGrey>
+            </TitleBottom>
+          </TopTitle>
+          <TopSpace></TopSpace>
+          <TopSelect>
+            <SelectIcon src={require(`./asset/select.png`)}></SelectIcon>
+            <SelectTitle>
+              {data.itemList[0].itemName} |{' '}
+              <SelectTitleGrey>#{data.itemList[0].id}</SelectTitleGrey>
+            </SelectTitle>
+            <SelectIcon src={require(`./asset/arrow.png`)}></SelectIcon>
+          </TopSelect>
+        </Top>
         <Bottom>hihi bottom</Bottom>
       </Outer>
     </>
