@@ -39,6 +39,7 @@ export const TopSelect = styled.div`
   gap: 12px;
   align-items: center;
   cursor: pointer;
+  position: relative;
 `;
 export const SelectIcon = styled.img`
   width: 20px;
@@ -49,4 +50,17 @@ export const SelectTitle = styled.div`
 `;
 export const SelectTitleGrey = styled.span`
   color: #d0d7de;
+`;
+export const SelectOptions = styled.span`
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 100%;
+  background-color: #ffffff;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+`;
+export const SelectOption = styled.span`
+  padding: 16px;
 `;

@@ -13,10 +13,15 @@ import {
   SelectIcon,
   SelectTitle,
   SelectTitleGrey,
+  SelectOptions,
+  SelectOption,
 } from './styles/Top.styled';
 import { Bottom } from './styles/Bottom.styled';
 
 function App() {
+  const [currentItemName, setCurrentItemName] = React.useState('Pickle');
+  const [currentID, setCurrentID] = React.useState(1234);
+  const [isSelectOpen, setIsSelectOpen] = React.useState(false);
   const [data, setData] = React.useState({
     itemIcon: 'pickle',
     itemName: 'Pickle',
@@ -33,6 +38,23 @@ function App() {
       { itemName: 'Yam', id: 1241 },
     ],
   });
+
+  const selectSwitch = () => {
+    setIsSelectOpen(!isSelectOpen);
+  };
+  const selectClick = () => {
+    selectSwitch();
+  };
+  const selectBlur = () => {
+    if (isSelectOpen) {
+      selectSwitch();
+    }
+  };
+
+  const optionClick = (e: any) => {
+    setCurrentItemName(e.target.dataset.itemname);
+    setCurrentID(e.target.dataset.id);
+  };
 
   const getData = () =>
     getAPI().then((res) => {
@@ -62,13 +84,29 @@ function App() {
             </TitleBottom>
           </TopTitle>
           <TopSpace></TopSpace>
-          <TopSelect>
+          <TopSelect tabIndex={0} onClick={selectClick} onBlur={selectBlur}>
             <SelectIcon src={require(`./asset/select.png`)}></SelectIcon>
             <SelectTitle>
-              {data.itemList[0].itemName} |{' '}
-              <SelectTitleGrey>#{data.itemList[0].id}</SelectTitleGrey>
+              {currentItemName} |{' '}
+              <SelectTitleGrey>#{currentID}</SelectTitleGrey>
             </SelectTitle>
             <SelectIcon src={require(`./asset/arrow.png`)}></SelectIcon>
+            {isSelectOpen ? (
+              <SelectOptions>
+                {data.itemList.map((i) => (
+                  <SelectOption
+                    key={i.id}
+                    data-id={i.id}
+                    data-itemname={i.itemName}
+                    onClick={optionClick}
+                  >
+                    #{i.id} | {i.itemName}
+                  </SelectOption>
+                ))}
+              </SelectOptions>
+            ) : (
+              ''
+            )}
           </TopSelect>
         </Top>
         <Bottom>hihi bottom</Bottom>
