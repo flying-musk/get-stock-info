@@ -16,7 +16,12 @@ import {
   SelectOptions,
   SelectOption,
 } from './styles/Top.styled';
-import { Bottom } from './styles/Bottom.styled';
+import {
+  Bottom,
+  BottomBanner,
+  BannerTitle,
+  BannerLabel,
+} from './styles/Bottom.styled';
 import { DataProp } from './interface';
 
 import {
@@ -211,6 +216,12 @@ function App() {
           </Top>
         )}
         <Bottom>
+          <BottomBanner>
+            <BannerTitle>Stock Level</BannerTitle>
+            <BannerLabel>
+              <li>Live Marketing Campaign</li>
+            </BannerLabel>
+          </BottomBanner>
           <Chart type="bar" data={ddddd} />
         </Bottom>
       </Outer>

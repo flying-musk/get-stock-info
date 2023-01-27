@@ -2,7 +2,6 @@ body {
   margin: 0;
   font-family: Monaco, sans-serif;
 }
-#myChart {
-  border: solid 1px #cc0000;
-  flex-grow: 1;
+canvas {
+  max-width: 100%;
 }
