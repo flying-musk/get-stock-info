@@ -17,27 +17,13 @@ import {
   SelectOption,
 } from './styles/Top.styled';
 import { Bottom } from './styles/Bottom.styled';
+import { DataProp } from './interface';
 
 function App() {
   const [currentItemName, setCurrentItemName] = React.useState('Pickle');
   const [currentID, setCurrentID] = React.useState(1234);
   const [isSelectOpen, setIsSelectOpen] = React.useState(false);
-  const [data, setData] = React.useState({
-    itemIcon: 'pickle',
-    itemName: 'Pickle',
-    currentStock: 60,
-    maximumStock: 150,
-    itemList: [
-      { itemName: 'Pickle', id: 1234 },
-      { itemName: 'Maize', id: 1235 },
-      { itemName: 'Potato', id: 1236 },
-      { itemName: 'Rice', id: 1237 },
-      { itemName: 'Soybean', id: 1238 },
-      { itemName: 'Sweet potato', id: 1239 },
-      { itemName: 'Wheat', id: 1240 },
-      { itemName: 'Yam', id: 1241 },
-    ],
-  });
+  const [data, setData] = React.useState<DataProp>();
 
   const selectSwitch = () => {
     setIsSelectOpen(!isSelectOpen);
@@ -74,41 +60,43 @@ function App() {
     <>
       <div>{JSON.stringify(data)}</div>
       <Outer>
-        <Top>
-          <TopIcon src={require(`./asset/${data.itemIcon}.png`)} />
-          <TopTitle>
-            <TitleTop>{data.itemName}</TitleTop>
-            <TitleBottom>
-              {data.currentStock}kg/
-              <TitleBottomGrey>{data.maximumStock}kg</TitleBottomGrey>
-            </TitleBottom>
-          </TopTitle>
-          <TopSpace></TopSpace>
-          <TopSelect tabIndex={0} onClick={selectClick} onBlur={selectBlur}>
-            <SelectIcon src={require(`./asset/select.png`)}></SelectIcon>
-            <SelectTitle>
-              {currentItemName} |{' '}
-              <SelectTitleGrey>#{currentID}</SelectTitleGrey>
-            </SelectTitle>
-            <SelectIcon src={require(`./asset/arrow.png`)}></SelectIcon>
-            {isSelectOpen ? (
-              <SelectOptions>
-                {data.itemList.map((i) => (
-                  <SelectOption
-                    key={i.id}
-                    data-id={i.id}
-                    data-itemname={i.itemName}
-                    onClick={optionClick}
-                  >
-                    #{i.id} | {i.itemName}
-                  </SelectOption>
-                ))}
-              </SelectOptions>
-            ) : (
-              ''
-            )}
-          </TopSelect>
-        </Top>
+        {data && (
+          <Top>
+            <TopIcon src={require(`./asset/${data?.itemIcon}.png`)} />
+            <TopTitle>
+              <TitleTop>{data?.itemName}</TitleTop>
+              <TitleBottom>
+                {data?.currentStock}kg/
+                <TitleBottomGrey>{data?.maximumStock}kg</TitleBottomGrey>
+              </TitleBottom>
+            </TopTitle>
+            <TopSpace></TopSpace>
+            <TopSelect tabIndex={0} onClick={selectClick} onBlur={selectBlur}>
+              <SelectIcon src={require(`./asset/select.png`)}></SelectIcon>
+              <SelectTitle>
+                {currentItemName} |{' '}
+                <SelectTitleGrey>#{currentID}</SelectTitleGrey>
+              </SelectTitle>
+              <SelectIcon src={require(`./asset/arrow.png`)}></SelectIcon>
+              {isSelectOpen ? (
+                <SelectOptions>
+                  {data?.itemList.map((i: any) => (
+                    <SelectOption
+                      key={i.id}
+                      data-id={i.id}
+                      data-itemname={i.itemName}
+                      onClick={optionClick}
+                    >
+                      #{i.id} | {i.itemName}
+                    </SelectOption>
+                  ))}
+                </SelectOptions>
+              ) : (
+                ''
+              )}
+            </TopSelect>
+          </Top>
+        )}
         <Bottom>hihi bottom</Bottom>
       </Outer>
     </>
