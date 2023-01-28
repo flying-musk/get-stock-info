@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getAPI } from './API';
 import { Outer } from './styles/Outer.styled';
 import {
@@ -23,6 +23,7 @@ import {
   BannerLabel,
 } from './styles/Bottom.styled';
 import { DataProp } from './interface';
+import { chartDataTemplate } from './ChartDataTemplate';
 
 import {
   Chart as ChartJS,
@@ -50,98 +51,39 @@ ChartJS.register(
   BarController
 );
 
-const actualStock = [53, 44, 35];
-const projectedStock = [
-  null,
-  null,
-  null,
-  25,
-  19,
-  17,
-  6,
-  53,
-  33,
-  25,
-  16,
-  13,
-  6,
-  4,
-];
-const demand = [21, 16, 12];
-const projectedDemand = [
-  null,
-  null,
-  null,
-  10,
-  12,
-  9,
-  4,
-  19,
-  13,
-  19,
-  13,
-  7,
-  5,
-  2,
-];
-const labels = [
-  'SUN',
-  'MON',
-  'TUE',
-  'WED',
-  'THU',
-  'FRI',
-  'SAT',
-  'SUN',
-  'MON',
-  'TUE',
-  'WED',
-  'THU',
-  'FRI',
-  'SAT',
-];
-
-export const ddddd = {
-  labels,
-  datasets: [
-    {
-      type: 'bar' as const,
-      label: 'Actual Stocks',
-      data: actualStock,
-      backgroundColor: '#d9d9d9',
-    },
-    {
-      type: 'bar' as const,
-      label: 'Projected Stocks',
-      data: projectedStock,
-      backgroundColor: '#f0f0f0',
-    },
-    {
-      type: 'line' as const,
-      label: 'Demand',
-      data: demand,
-      backgroundColor: '#000000',
-      borderColor: '#000000',
-      borderWidth: 1,
-      fill: false,
-    },
-    {
-      type: 'line' as const,
-      label: 'Projected Demand',
-      data: projectedDemand,
-      borderColor: '#222222',
-      borderDash: [3, 2],
-      borderWidth: 1,
-      fill: false,
-    },
-  ],
-};
-
 function App() {
-  const [currentItemName, setCurrentItemName] = React.useState('Pickle');
-  const [currentID, setCurrentID] = React.useState(1234);
-  const [isSelectOpen, setIsSelectOpen] = React.useState(false);
-  const [data, setData] = React.useState<DataProp>();
+  const [currentItemName, setCurrentItemName] = useState('Pickle');
+  const [currentID, setCurrentID] = useState(1234);
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const [data, setData] = useState<DataProp>();
+  const [chartData, setChartData] = useState(chartDataTemplate);
+  const chartOptions = {
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top' as const,
+        align: 'end' as const,
+        labels: {
+          filter: ({ text }: any) => {
+            return (
+              ['Actual Stocks', 'Projected Stocks', 'Demand'].indexOf(text) > -1
+            );
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Days', font: { size: 14 } },
+        stacked: true,
+      },
+      y: {
+        title: { display: true, text: 'KG', font: { size: 14 } },
+      },
+    },
+  };
+
+  const chartRef = useRef();
 
   const selectSwitch = () => {
     setIsSelectOpen(!isSelectOpen);
@@ -159,20 +101,69 @@ function App() {
     setCurrentItemName(e.target.dataset.itemname);
     setCurrentID(e.target.dataset.id);
   };
+  useEffect(() => {
+    const getData = () => {
+      getAPI(currentID).then((res) => {
+        if (res.status === 200) {
+          console.log('ohlala', res.data);
+          setData(res.data);
+          let {
+            actualStock,
+            projectedStock,
+            todayStock,
+            demand,
+            projectedDemand,
+          } = res.data;
 
-  const getData = () =>
-    getAPI().then((res) => {
-      if (res.status === 200) {
-        console.log('ohlala', res.data);
-        setData(res.data);
-      } else {
-        console.log(res);
-      }
-    });
-
-  React.useEffect(() => {
+          demand = [
+            Math.random() * 10 + 10,
+            Math.random() * 20 + 20,
+            Math.random() * 30 + 30,
+          ]; // fake data
+          actualStock = [
+            Math.random() * 10 + 10,
+            Math.random() * 20 + 10,
+            Math.random() * 30 + 30,
+          ]; // fake data
+          projectedStock = [
+            null,
+            null,
+            null,
+            null,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+            Math.random() * 10 + 10,
+          ];
+          todayStock = [null, null, null, Math.random() * 10 + 10]; // fake data
+          chartDataTemplate.datasets[0].data = [...demand, projectedDemand[3]];
+          chartDataTemplate.datasets[1].data = projectedDemand;
+          chartDataTemplate.datasets[2].data = actualStock;
+          chartDataTemplate.datasets[3].data = projectedStock;
+          chartDataTemplate.datasets[4].data = todayStock;
+          setChartData(chartDataTemplate);
+          updateChart();
+        } else {
+          console.log(res);
+        }
+      });
+    };
     getData();
-  }, []);
+  }, [currentID]);
+
+  const updateChart = () => {
+    const tt: any = chartRef.current;
+    if (tt) {
+      tt.data = chartData;
+      tt.update();
+    }
+  };
 
   return (
     <>
@@ -222,7 +213,12 @@ function App() {
               <li>Live Marketing Campaign</li>
             </BannerLabel>
           </BottomBanner>
-          <Chart type="bar" data={ddddd} />
+          <Chart
+            type="bar"
+            data={chartData}
+            ref={chartRef}
+            options={chartOptions}
+          />
         </Bottom>
       </Outer>
     </>

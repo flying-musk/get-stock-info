@@ -6,15 +6,15 @@ interface Params {
 }
 
 const getConfig: Params = {
-  baseUrl: 'https://get-stock-info-4dlzmrappq-de.a.run.app/',
+  baseUrl: 'https://get-stock-info-4dlzmrappq-de.a.run.app',
   // baseUrl: 'https://jsonplaceholder.typicode.com',
   method: 'get',
 };
 
-export const getAPI = async (): Promise<any> => {
+export const getAPI = async (itemId: number): Promise<any> => {
   return await axios({
     ...getConfig,
-    url: `${getConfig.baseUrl}`,
+    url: `${getConfig.baseUrl}?itemId=${itemId}`,
   })
     .then((response) => {
       console.log(response);
