@@ -54,6 +54,27 @@ export const chartDataTemplate = {
   labels,
   datasets: [
     {
+      order: 2,
+      type: 'bar' as const,
+      label: 'Actual Stocks',
+      data: actualStock,
+      backgroundColor: '#d9d9d9',
+    },
+    {
+      order: 2,
+      type: 'bar' as const,
+      label: 'Projected Stocks',
+      data: projectedStock,
+      backgroundColor: '#f0f0f0',
+    },
+    {
+      order: 2,
+      type: 'bar' as const,
+      label: 'Today Stocks',
+      data: todayStock,
+      backgroundColor: '#9f9f9f',
+    },
+    {
       type: 'line' as const,
       label: 'Demand',
       data: demand,
@@ -70,24 +91,6 @@ export const chartDataTemplate = {
       borderDash: [3, 2],
       borderWidth: 1,
       fill: false,
-    },
-    {
-      type: 'bar' as const,
-      label: 'Actual Stocks',
-      data: actualStock,
-      backgroundColor: '#d9d9d9',
-    },
-    {
-      type: 'bar' as const,
-      label: 'Projected Stocks',
-      data: projectedStock,
-      backgroundColor: '#f0f0f0',
-    },
-    {
-      type: 'bar' as const,
-      label: 'Today Stocks',
-      data: todayStock,
-      backgroundColor: '#000',
     },
   ],
 };

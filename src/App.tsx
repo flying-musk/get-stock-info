@@ -64,6 +64,9 @@ function App() {
         position: 'top' as const,
         align: 'end' as const,
         labels: {
+          sort: ({ text }: any) => {
+            return text === 'Demand' ? 1 : -1;
+          },
           filter: ({ text }: any) => {
             return (
               ['Actual Stocks', 'Projected Stocks', 'Demand'].indexOf(text) > -1
@@ -122,11 +125,12 @@ function App() {
             projectedDemand,
           } = res.data;
 
-          chartDataTemplate.datasets[0].data = [...demand, projectedDemand[3]];
-          chartDataTemplate.datasets[1].data = projectedDemand;
-          chartDataTemplate.datasets[2].data = actualStock;
-          chartDataTemplate.datasets[3].data = projectedStock;
-          chartDataTemplate.datasets[4].data = todayStock;
+          chartDataTemplate.datasets[0].data = actualStock;
+          chartDataTemplate.datasets[1].data = projectedStock;
+          chartDataTemplate.datasets[2].data = todayStock;
+          chartDataTemplate.datasets[3].data = [...demand, projectedDemand[3]];
+          chartDataTemplate.datasets[4].data = projectedDemand;
+
           setChartData(chartDataTemplate);
           updateChart();
         } else {
