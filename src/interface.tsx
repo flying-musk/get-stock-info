@@ -13,5 +13,6 @@ export interface DataProp {
   projectedStock: Array<number>;
   demand: Array<number>;
   projectedDemand: Array<number>;
+  todayStock: Array<number>;
   labels: Array<string>;
 }

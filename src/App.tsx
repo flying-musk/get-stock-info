@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getAPI } from './API';
 import { Outer } from './styles/Outer.styled';
 import {
@@ -83,8 +83,6 @@ function App() {
     },
   };
 
-  const chartRef = useRef();
-
   const selectSwitch = () => {
     setIsSelectOpen(!isSelectOpen);
   };
@@ -101,11 +99,20 @@ function App() {
     setCurrentItemName(e.target.dataset.itemname);
     setCurrentID(e.target.dataset.id);
   };
+
+  const chartRef = useRef();
+  const updateChart = () => {
+    const tt: any = chartRef.current;
+    if (tt) {
+      tt.data = chartData;
+      tt.update();
+    }
+  };
+
   useEffect(() => {
     const getData = () => {
       getAPI(currentID).then((res) => {
         if (res.status === 200) {
-          console.log('ohlala', res.data);
           setData(res.data);
           let {
             actualStock,
@@ -115,33 +122,6 @@ function App() {
             projectedDemand,
           } = res.data;
 
-          demand = [
-            Math.random() * 10 + 10,
-            Math.random() * 20 + 20,
-            Math.random() * 30 + 30,
-          ]; // fake data
-          actualStock = [
-            Math.random() * 10 + 10,
-            Math.random() * 20 + 10,
-            Math.random() * 30 + 30,
-          ]; // fake data
-          projectedStock = [
-            null,
-            null,
-            null,
-            null,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-            Math.random() * 10 + 10,
-          ];
-          todayStock = [null, null, null, Math.random() * 10 + 10]; // fake data
           chartDataTemplate.datasets[0].data = [...demand, projectedDemand[3]];
           chartDataTemplate.datasets[1].data = projectedDemand;
           chartDataTemplate.datasets[2].data = actualStock;
@@ -157,17 +137,8 @@ function App() {
     getData();
   }, [currentID]);
 
-  const updateChart = () => {
-    const tt: any = chartRef.current;
-    if (tt) {
-      tt.data = chartData;
-      tt.update();
-    }
-  };
-
   return (
     <>
-      <div>{JSON.stringify(data)}</div>
       <Outer>
         {data && (
           <Top>

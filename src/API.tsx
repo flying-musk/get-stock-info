@@ -7,7 +7,6 @@ interface Params {
 
 const getConfig: Params = {
   baseUrl: 'https://get-stock-info-4dlzmrappq-de.a.run.app',
-  // baseUrl: 'https://jsonplaceholder.typicode.com',
   method: 'get',
 };
 
