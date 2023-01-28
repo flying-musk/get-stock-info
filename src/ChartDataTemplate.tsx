@@ -1,3 +1,4 @@
+import pattern from 'patternomaly';
 const todayStock = [null, null, null, 25];
 const actualStock = [53, 44, 35];
 const projectedStock = [
@@ -54,7 +55,7 @@ export const chartDataTemplate = {
   labels,
   datasets: [
     {
-      order: 2,
+      order: 3,
       type: 'bar' as const,
       label: 'Actual Stocks',
       data: actualStock,
@@ -65,14 +66,14 @@ export const chartDataTemplate = {
       type: 'bar' as const,
       label: 'Projected Stocks',
       data: projectedStock,
-      backgroundColor: '#f0f0f0',
+      backgroundColor: pattern.draw('line', '#f0f0f0'),
     },
     {
       order: 2,
       type: 'bar' as const,
       label: 'Today Stocks',
       data: todayStock,
-      backgroundColor: '#9f9f9f',
+      backgroundColor: pattern.draw('line', '#9f9f9f'),
     },
     {
       type: 'line' as const,
