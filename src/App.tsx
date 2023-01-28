@@ -38,6 +38,7 @@ import {
   BarController,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(
   LinearScale,
@@ -48,7 +49,8 @@ ChartJS.register(
   Legend,
   Tooltip,
   LineController,
-  BarController
+  BarController,
+  ChartDataLabels
 );
 
 function App() {
@@ -59,6 +61,21 @@ function App() {
   const [chartData, setChartData] = useState(chartDataTemplate);
   const chartOptions = {
     plugins: {
+      datalabels: {
+        anchor: 'end' as const,
+        align: 'end' as const,
+        offset: 4,
+        font: {
+          size: 10,
+          family: 'Monaco, sans-serif' as const,
+        },
+        display: (content: any) => {
+          return content.dataset.label === 'Today Stocks' ? true : false;
+        },
+        formatter: (value: any) => {
+          return value ? `Today\nSEP 6th, 2022` : '';
+        },
+      },
       legend: {
         display: true,
         position: 'top' as const,
