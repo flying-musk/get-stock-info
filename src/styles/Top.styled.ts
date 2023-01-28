@@ -26,7 +26,7 @@ export const TitleBottomGrey = styled.span`
   color: #d0d7de;
 `;
 export const TopSpace = styled.div`
-  flex-grow: 2;
+  flex-grow: 3;
 `;
 export const TopSelect = styled.div`
   border: solid 1px;
@@ -34,7 +34,7 @@ export const TopSelect = styled.div`
   padding: 16px;
   font-size: 14px;
   flex-basis: 0;
-  flex-grow: 1;
+  flex-grow: 2;
   display: flex;
   gap: 12px;
   align-items: center;
@@ -52,10 +52,11 @@ export const SelectTitleGrey = styled.span`
   color: #d0d7de;
 `;
 export const SelectOptions = styled.span`
+  border: solid 1px #d0d7de;
   position: absolute;
   left: 16px;
   right: 16px;
-  top: 100%;
+  top: 102%;
   background-color: #ffffff;
   z-index: 10;
   display: flex;
