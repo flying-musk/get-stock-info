@@ -14,6 +14,8 @@ export const TopIcon = styled.img`
 `;
 
 export const TopTitle = styled.div`
+  flex-basis: 0;
+  flex-grow: 2;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -26,6 +28,7 @@ export const TitleBottomGrey = styled.span`
   color: #d0d7de;
 `;
 export const TopSpace = styled.div`
+  flex-basis: 0;
   flex-grow: 3;
 `;
 export const TopSelect = styled.div`
@@ -34,7 +37,7 @@ export const TopSelect = styled.div`
   padding: 16px;
   font-size: 14px;
   flex-basis: 0;
-  flex-grow: 2;
+  flex-grow: 3;
   display: flex;
   gap: 12px;
   align-items: center;
