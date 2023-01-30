@@ -16,3 +16,17 @@ export interface DataProp {
   todayStock: Array<number>;
   labels: Array<string>;
 }
+
+export const dataTemplate: DataProp = {
+  itemIcon: 'pickle',
+  itemName: '',
+  currentStock: 0,
+  maximumStock: 0,
+  itemList: [],
+  actualStock: [],
+  projectedStock: [],
+  demand: [],
+  projectedDemand: [],
+  todayStock: [],
+  labels: [],
+};

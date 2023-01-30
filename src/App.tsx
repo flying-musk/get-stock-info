@@ -22,7 +22,7 @@ import {
   BannerTitle,
   BannerLabel,
 } from './styles/Bottom.styled';
-import { DataProp } from './interface';
+import { DataProp, dataTemplate } from './interface';
 import { chartDataTemplate } from './ChartDataTemplate';
 
 import {
@@ -57,7 +57,7 @@ function App() {
   const [currentItemName, setCurrentItemName] = useState('Pickle');
   const [currentID, setCurrentID] = useState(1234);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const [data, setData] = useState<DataProp>();
+  const [data, setData] = useState<DataProp>(dataTemplate);
   const [chartData, setChartData] = useState(chartDataTemplate);
   const chartOptions = {
     plugins: {
@@ -161,43 +161,41 @@ function App() {
   return (
     <>
       <Outer>
-        {data && (
-          <Top>
-            <TopIcon src={require(`./asset/${data?.itemIcon}.png`)} />
-            <TopTitle>
-              <TitleTop>{data?.itemName}</TitleTop>
-              <TitleBottom>
-                {data?.currentStock}kg/
-                <TitleBottomGrey>{data?.maximumStock}kg</TitleBottomGrey>
-              </TitleBottom>
-            </TopTitle>
-            <TopSpace></TopSpace>
-            <TopSelect tabIndex={0} onClick={selectClick} onBlur={selectBlur}>
-              <SelectIcon src={require(`./asset/select.png`)}></SelectIcon>
-              <SelectTitle>
-                {currentItemName} |{' '}
-                <SelectTitleGrey>#{currentID}</SelectTitleGrey>
-              </SelectTitle>
-              <SelectIcon src={require(`./asset/arrow.png`)}></SelectIcon>
-              {isSelectOpen ? (
-                <SelectOptions>
-                  {data?.itemList.map((i: any) => (
-                    <SelectOption
-                      key={i.id}
-                      data-id={i.id}
-                      data-itemname={i.itemName}
-                      onClick={optionClick}
-                    >
-                      #{i.id} | {i.itemName}
-                    </SelectOption>
-                  ))}
-                </SelectOptions>
-              ) : (
-                ''
-              )}
-            </TopSelect>
-          </Top>
-        )}
+        <Top>
+          <TopIcon src={require(`./asset/${data?.itemIcon}.png`)} />
+          <TopTitle>
+            <TitleTop>{data?.itemName}</TitleTop>
+            <TitleBottom>
+              {data?.currentStock}kg/
+              <TitleBottomGrey>{data?.maximumStock}kg</TitleBottomGrey>
+            </TitleBottom>
+          </TopTitle>
+          <TopSpace></TopSpace>
+          <TopSelect tabIndex={0} onClick={selectClick} onBlur={selectBlur}>
+            <SelectIcon src={require(`./asset/select.png`)}></SelectIcon>
+            <SelectTitle>
+              {currentItemName} |{' '}
+              <SelectTitleGrey>#{currentID}</SelectTitleGrey>
+            </SelectTitle>
+            <SelectIcon src={require(`./asset/arrow.png`)}></SelectIcon>
+            {isSelectOpen ? (
+              <SelectOptions>
+                {data?.itemList.map((i: any) => (
+                  <SelectOption
+                    key={i.id}
+                    data-id={i.id}
+                    data-itemname={i.itemName}
+                    onClick={optionClick}
+                  >
+                    #{i.id} | {i.itemName}
+                  </SelectOption>
+                ))}
+              </SelectOptions>
+            ) : (
+              ''
+            )}
+          </TopSelect>
+        </Top>
         <Bottom>
           <BottomBanner>
             <BannerTitle>Stock Level</BannerTitle>
